@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "gerenciador-de-senhas",
+    "slug": "gerenciador-de-senhas",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
