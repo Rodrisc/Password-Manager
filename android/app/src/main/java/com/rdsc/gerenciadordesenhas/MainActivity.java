@@ -1,4 +1,4 @@
-package com.gerenciadordesenhas;
+package com.rdsc.gerenciadordesenhas;
 
 import android.os.Build;
 import android.os.Bundle;

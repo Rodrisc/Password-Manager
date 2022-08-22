@@ -10,6 +10,10 @@ import { Routes } from './src/routes';
 export default function App() {
   return (
     <NativeBaseProvider>
+      <StatusBar
+      
+      backgroundColor='transparent'
+      translucent />
       <Routes />
     </NativeBaseProvider>
   );

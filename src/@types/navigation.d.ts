@@ -4,6 +4,7 @@ export declare global {
             home: undefined
             register: undefined
             showdata: { id: string }
+            config: undefined
         }
     }
 }

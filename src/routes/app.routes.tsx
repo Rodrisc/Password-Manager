@@ -2,7 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Home } from '../screens/Home'
 import { Register } from '../screens/Register'
-import { ShowDatas } from '../screens/Details'
+import { ShowDatas } from '../screens/Edit'
+import { Config } from '../screens/Config'
 
 
 const { Navigator, Screen } = createNativeStackNavigator()
@@ -13,6 +14,7 @@ export function AppRoutes() {
             <Screen name='home' component={Home} />
             <Screen name='register' component={Register} />
             <Screen name='showdata' component={ShowDatas} />
+            <Screen name='config' component={Config} />
         </Navigator>
     )
 

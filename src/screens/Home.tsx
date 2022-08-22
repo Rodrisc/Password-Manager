@@ -1,15 +1,11 @@
 import { VStack, Text, HStack, IconButton, useTheme, Heading, Center, FlatList } from 'native-base';
-import { useState, useEffect, SetStateAction, useCallback } from 'react';
-import { SignOut, LockKey, Eye, EyeSlash, GearSix, EnvelopeOpen, Package, Tray, Gear } from 'phosphor-react-native'
+import { useState, useCallback } from 'react';
+import { LockKey, Tray, Gear } from 'phosphor-react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
 import { Button } from '../components/Button';
-import { ToastAndroid } from 'react-native'
 
-// import * as SQLite from 'expo-sqlite'
-
-// const db = SQLite.openDatabase('db.sqlite')
 
 import { ViewAccount, dataAccount } from '../components/viewAccount';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,9 +16,6 @@ export function Home() {
 
   const navigation = useNavigation()
 
-
-  const [eye, setEye] = useState(false)
-
   const [accounts, setAccounts] = useState<dataAccount[]>([])
 
   const [isLoading, setIsLoading] = useState(false)
@@ -30,18 +23,12 @@ export function Home() {
   const { colors } = useTheme()
 
 
-  function handleEye() {
-    if (eye) {
-      setEye(false)
-
-    } else {
-      setEye(true)
-    }
+  function handleOpenNewAccount() {
+    navigation.navigate('register')
   }
 
-  function toast() {
-    // ToastAndroid.show('Vc apertou o botão', 2000)
-    navigation.navigate('register')
+  function handleOpenConfig(){
+    navigation.navigate('config')
   }
 
   const getData = async () =>{
@@ -67,9 +54,7 @@ export function Home() {
   useFocusEffect(useCallback(() => {
     getData()
   }, []))
-
   
-
   return (
     <VStack flex={1} pb={6} bg="gray.700">
 
@@ -92,6 +77,7 @@ export function Home() {
 
         <IconButton
           icon={<Gear size={26} color={colors.gray[300]} />}
+          onPress={handleOpenConfig}
         />
       </HStack>
 
@@ -128,7 +114,7 @@ export function Home() {
           </Center>
         )}
       /> 
-      <Button title='Adicionar nova senha' onPress={toast}
+      <Button title='Adicionar nova senha' onPress={handleOpenNewAccount}
         mt={3}
       />
     </VStack>}

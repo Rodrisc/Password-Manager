@@ -101,7 +101,7 @@ export function Register() {
             <Select.Item label="Redes Sociais" value='#00f' />
             <Select.Item label='Contas Bancárias' value='#f00' />
             <Select.Item label='Games' value='#f0f' />
-            <Select.Item label='Outros' value='#f0' />
+            <Select.Item label='Outros' value='#fff' />
           </Select>
 
         </Box>

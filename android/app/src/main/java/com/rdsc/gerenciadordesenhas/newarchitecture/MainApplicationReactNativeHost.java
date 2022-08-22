@@ -1,4 +1,4 @@
-package com.gerenciadordesenhas.newarchitecture;
+package com.rdsc.gerenciadordesenhas.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.gerenciadordesenhas.BuildConfig;
-import com.gerenciadordesenhas.newarchitecture.components.MainComponentsRegistry;
-import com.gerenciadordesenhas.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.rdsc.gerenciadordesenhas.BuildConfig;
+import com.rdsc.gerenciadordesenhas.newarchitecture.components.MainComponentsRegistry;
+import com.rdsc.gerenciadordesenhas.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

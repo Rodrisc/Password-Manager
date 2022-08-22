@@ -1,4 +1,4 @@
-package com.gerenciadordesenhas.newarchitecture.modules;
+package com.rdsc.gerenciadordesenhas.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
