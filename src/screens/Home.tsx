@@ -27,28 +27,28 @@ export function Home() {
     navigation.navigate('register')
   }
 
-  function handleOpenConfig(){
+  function handleOpenConfig() {
     navigation.navigate('config')
   }
 
-  const getData = async () =>{
+  const getData = async () => {
     setIsLoading(true)
-    try{
+    try {
       const jsonvalue = await AsyncStorage.getItem('@PasswordManager:Passwords')
       jsonvalue ? setAccounts(JSON.parse(jsonvalue)) : []
-    } catch(e){
+    } catch (e) {
       console.log(e)
     }
     setIsLoading(false)
   }
 
-  const getAllkeys = async () =>{
-    const response = await AsyncStorage.removeItem('@PasswordManager:Passwords')
-    console.log(response)
-  }
+  // const getAllkeys = async () =>{
+  //   const response = await AsyncStorage.removeItem('@PasswordManager:Passwords')
+  //   console.log(response)
+  // }
 
-  function handleOpenShowDatas(id: string){
-    navigation.navigate('showdata',{ id } )
+  function handleOpenShowDatas(id: string) {
+    navigation.navigate('showdata', { id })
   }
 
   useFocusEffect(useCallback(() => {
@@ -81,43 +81,42 @@ export function Home() {
         />
       </HStack>
 
-      {isLoading ? <Loading />:
-      
-      <VStack flex={1} px={6} >
+      {isLoading ? <Loading /> :
 
-      <HStack w='full' mt={5} mb={4} justifyContent='space-between' alignItems='center'>
-        <Heading color='gray.300'>
-          Minhas senhas
-        </Heading>
+        <VStack flex={1} px={6} >
 
-        {/* <IconButton
+          <HStack w='full' mt={5} mb={4} justifyContent='space-between' alignItems='center'>
+            <Heading color='gray.300'>
+              Minhas senhas
+            </Heading>
+
+            {/* <IconButton
           icon={eye ? <Eye size={25} color={colors.gray[300]} /> : <EyeSlash size={25} color={colors.gray[300]} />}
           onPress={handleEye}
         /> */}
 
-        <Text color='gray.200'>{accounts.length}</Text>
-      </HStack>
+            <Text color='gray.200'>{accounts.length}</Text>
+          </HStack>
 
-      <FlatList
-
-        data={accounts}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <ViewAccount data={item} onPress={() => handleOpenShowDatas(item.id)} />}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => (
-          <Center>
-            <Tray color={colors.gray[300]} size={40} />
-            <Text color='gray.300' fontSize='xl' mt={6} textAlign='center'>
-              Você ainda não possui {'\n'}
-              senhas salvas
-            </Text>
-          </Center>
-        )}
-      /> 
-      <Button title='Adicionar nova senha' onPress={handleOpenNewAccount}
-        mt={3}
-      />
-    </VStack>}
+          <FlatList
+            data={accounts}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => <ViewAccount data={item} onPress={() => handleOpenShowDatas(item.id)} />}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <Center>
+                <Tray color={colors.gray[300]} size={40} />
+                <Text color='gray.300' fontSize='xl' mt={6} textAlign='center'>
+                  Você ainda não possui {'\n'}
+                  senhas salvas
+                </Text>
+              </Center>
+            )}
+          />
+          <Button title='Adicionar nova senha' onPress={handleOpenNewAccount}
+            mt={3}
+          />
+        </VStack>}
 
     </VStack>
   );
