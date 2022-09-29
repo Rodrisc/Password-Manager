@@ -1,11 +1,11 @@
-import { VStack, useTheme, Box, Icon } from 'native-base';
+import { VStack, useTheme, Box, Icon, Center, ScrollView } from 'native-base';
 import { Header } from '../components/Header';
 import { useRoute } from '@react-navigation/native'
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Loading } from '../components/Loading';
 
-import { User, Envelope, Password } from 'phosphor-react-native';
+import { User, Envelope, Password, IdentificationCard, Eye, EyeSlash, UserCirclePlus, UserCircleGear } from 'phosphor-react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -14,7 +14,7 @@ import { dataAccount } from '../components/viewAccount';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { ToastAndroid, Alert } from 'react-native';
+import { ToastAndroid, Alert, TouchableOpacity } from 'react-native';
 
 type RouteParams = {
   id: string
@@ -28,7 +28,7 @@ export function ShowDatas() {
   const { colors } = useTheme()
 
   const route = useRoute()
-  const [edit, setEdit] = useState(false)
+  // const [edit, setEdit] = useState(false)
   const [account, setAccount] = useState<dataAccount>()
 
   const [allAccounts, setAllAccounts] = useState<dataAccount[]>([])
@@ -39,6 +39,9 @@ export function ShowDatas() {
   const [identifier, setIdentifier] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [user, setUser] = useState('')
+
+  const [hidePassword, setHidePassword] = useState(true)
 
   const { id } = route.params as RouteParams
 
@@ -65,6 +68,7 @@ export function ShowDatas() {
       setIdentifier(item.identifier)
       setEmail(item.email)
       setPassword(item.password)
+      setUser(item.user)
       setAccount(item)
       setAllAccounts(allItens)
 
@@ -83,6 +87,7 @@ export function ShowDatas() {
     const newData = {
       id: account.id,
       identifier,
+      user,
       email,
       password,
       colorBox: account.colorBox
@@ -131,18 +136,29 @@ export function ShowDatas() {
         <Header title={'Editar'} pr={6} />
       </Box>
 
-      {isLoading ?
-        <Loading /> :
-        <VStack p={3} flex={1} justifyContent='center'>
-          <Input h={60} mb={5} bg='gray.800' value={identifier} InputLeftElement={<Icon as={<User color={colors.gray[300]} />} m={3} />} placeholder='Identificador' placeholderTextColor='gray.500' color='gray.300' onChangeText={setIdentifier} />
-          <Input h={60} mb={5} bg='gray.800' value={email} InputLeftElement={<Icon as={<Envelope color={colors.gray[300]} />} m={3} />} placeholder='E-mail' placeholderTextColor='gray.500' color='gray.300' onChangeText={setEmail} />
-          <Input h={60} mb={5} bg='gray.800' value={password} InputLeftElement={<Icon as={<Password color={colors.gray[300]} />} m={3} />} placeholder='Senha' placeholderTextColor='gray.500' color='gray.300' onChangeText={setPassword} />
+      <ScrollView>
 
-          <Button title={'Salvar'} onPress={handleSave} mb={5} isLoading={ButtonLoading} />
-          <Button title='Apagar' bg='red.500' _pressed={{ bg: 'red.800' }} onPress={handleDelete} />
+        <Center mb={5} pt={3}>
+          <UserCircleGear size={120} color='#5C9DF2' />
+        </Center>
+        
+        {isLoading ?
+          <Loading /> :
+          <VStack p={3} flex={1} justifyContent='center'>
+            <Input h={60} mb={5} bg='gray.800' value={identifier} InputLeftElement={<Icon as={<IdentificationCard color={colors.gray[300]} />} m={3} />} placeholder='Identificador' placeholderTextColor='gray.500' color='gray.300' onChangeText={setIdentifier} />
+            <Input h={60} mb={5} bg='gray.800' value={user} InputLeftElement={<Icon as={<User color={colors.gray[300]} />} m={3} />} placeholder='Usuário' placeholderTextColor='gray.500' color='gray.300' onChangeText={setUser} />
+            <Input h={60} mb={5} bg='gray.800' value={email} InputLeftElement={<Icon as={<Envelope color={colors.gray[300]} />} m={3} />} placeholder='E-mail' placeholderTextColor='gray.500' color='gray.300' onChangeText={setEmail} />
+            <Input h={60} mb={5} bg='gray.800' value={password} InputLeftElement={<Icon as={<Password color={colors.gray[300]} />} m={3} />} placeholder='Senha' placeholderTextColor='gray.500' color='gray.300' onChangeText={setPassword} type={hidePassword ? 'password' : 'text'}
+              InputRightElement={<TouchableOpacity onPress={() => setHidePassword(!hidePassword)} style={{ marginRight: 15 }}>
+                {hidePassword ? <Eye color={colors.gray[300]} /> : <EyeSlash color={colors.gray[300]} />}
+              </TouchableOpacity>} />
 
-        </VStack>
-      }
+            <Button title={'Salvar'} onPress={handleSave} mb={5} isLoading={ButtonLoading} />
+            <Button title='Apagar' bg='red.500' _pressed={{ bg: 'red.800' }} onPress={handleDelete} />
+
+          </VStack>
+        }
+      </ScrollView>
     </VStack>
   )
 }
