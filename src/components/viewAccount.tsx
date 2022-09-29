@@ -1,13 +1,14 @@
 import { IPressableProps, Text, VStack, HStack, Pressable, Circle, Box, useTheme, IconButton, Icon } from 'native-base';
-import { Password, User, CaretDown, CaretUp, Envelope, Key } from 'phosphor-react-native';
+import { Password, User, CaretDown, CaretUp, Envelope, Key, IdentificationCard, IdentificationBadge } from 'phosphor-react-native';
 import { useState } from 'react';
-import { Alert } from 'react-native';
+
 import { Input } from './Input';
 
 
 export type dataAccount = {
     id: string
     identifier: string
+    user: string
     email: string
     password: string
     colorBox: string
@@ -27,13 +28,8 @@ export function ViewAccount({ data, ...rest }: Props) {
 
 
     function handleOcultar() {
-        if (ocultar) {
-            setOcultar(false)
-        } else {
-            setOcultar(true)
-        }
+        setOcultar(!ocultar)
     }
-
 
     return (
 
@@ -50,22 +46,34 @@ export function ViewAccount({ data, ...rest }: Props) {
             <Pressable flex={1} my={5} ml={5} {...rest}>
 
                 <VStack>
+                    {/* verificar essa condição */}
                     {ocultar ? <Input
                         variant='underlined'
                         value={data.identifier}
-                        InputLeftElement={<Icon as={<User color={colors.gray[300]} />} mr={3} />}
+                        InputLeftElement={<Icon as={<IdentificationBadge color={colors.gray[300]} />} mr={3} />}
                         color='gray.300'
                         size={24}
                         isReadOnly
                     /> :
                         <HStack alignItems='center'>
-                            <User color='white' size={20} />
-                            <Text color='white' fontSize='md'> {data.identifier}</Text>
+                            <IdentificationCard color='white' />
+                            <Text color='white' fontSize='md' ml={3}>{data.identifier}</Text>
                         </HStack>}
 
                     {ocultar &&
                         <VStack>
-                            <Input
+
+                            {!!data.user && <Input
+                                variant='underlined'
+                                value={data.user}
+                                InputLeftElement={<Icon as={<User color={colors.gray[300]} />} mr={3} />}
+                                color='gray.300'
+                                size={24}
+                                isReadOnly
+                                multiline
+                            />}
+
+                            {!!data.email && <Input
                                 variant='underlined'
                                 value={data.email}
                                 InputLeftElement={<Icon as={<Envelope color={colors.gray[300]} />} mr={3} />}
@@ -74,7 +82,7 @@ export function ViewAccount({ data, ...rest }: Props) {
                                 isReadOnly
                                 multiline
 
-                            />
+                            />}
                             <Input
                                 variant='underlined'
                                 value={data.password}
