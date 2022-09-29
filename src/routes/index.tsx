@@ -1,6 +1,4 @@
-import { VStack } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native'
-import { Home } from '../screens/Home';
 import { AppRoutes } from './app.routes';
 
 import * as LocalAuthentication from 'expo-local-authentication'
@@ -10,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loading } from '../components/Loading';
 
 import { BackHandler, ToastAndroid } from 'react-native'
+import { Login } from '../screens/Login';
 
 
 
@@ -29,7 +28,7 @@ export function Routes() {
     }).then(result => {
       if(!result.success){
         ToastAndroid.show('Não foi possível acessar o App! Use/Habilite as credênciais do dispositivo!', 2000)
-        BackHandler.exitApp()
+        // BackHandler.exitApp()
       }
       setIsAlthenticate(result.success)
       
@@ -74,14 +73,16 @@ export function Routes() {
     }
   }, [])
 
+  
+
   if(isLoading){
     return(<Loading/> )
   }
 
   return (
     <NavigationContainer>
-      {isAuthenticate &&
-        <AppRoutes />
+      {isAuthenticate ?
+        <AppRoutes /> : <Login authenticate={verifyAsyncStorage}/>
       }
     </NavigationContainer>
   );
