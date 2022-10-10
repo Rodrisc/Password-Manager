@@ -1,6 +1,7 @@
-import { Input as InputNative, IInputProps } from 'native-base';
+import { Input as InputNative, IInputProps, useTheme } from 'native-base';
 
 export function Input({ ...rest }: IInputProps) {
+  const { colors } = useTheme()
   return (
     <InputNative
       
@@ -9,8 +10,9 @@ export function Input({ ...rest }: IInputProps) {
       color='red'
       fontSize='md'
       fontFamily='body'
+      autoCapitalize='none'
+      selectionColor={colors.blue['400']}
       
-      placeholder=''
       {...rest}
     />
 
