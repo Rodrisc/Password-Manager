@@ -40,6 +40,7 @@ export function ShowDatas() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState('')
+  const [requiredFiel, setRequiredFiel] = useState('')
 
   const [hidePassword, setHidePassword] = useState(true)
 
@@ -82,28 +83,34 @@ export function ShowDatas() {
 
   const handleSave = async () => {
 
-    setButtonLoading(true)
+    const verify = verifyInputs()
 
-    const newData = {
-      id: account.id,
-      identifier,
-      user,
-      email,
-      password,
-      colorBox: account.colorBox
-    }
+    if (verify) {
+      verifyInputs()
 
-    const newJson = allAccounts.filter(item => item.id != id)
-    const data = [...newJson, newData]
+      setButtonLoading(true)
 
-    try {
-      await AsyncStorage.setItem("@PasswordManager:Passwords", JSON.stringify(data))
-      ToastAndroid.show('Senha modificada com sucesso!', 2000)
-      navigation.goBack()
+      const newData = {
+        id: account.id,
+        identifier,
+        user,
+        email,
+        password,
+        colorBox: account.colorBox
+      }
 
-    } catch (e) {
-      console.log(e)
-      setButtonLoading(false)
+      const newJson = allAccounts.filter(item => item.id != id)
+      const data = [...newJson, newData]
+
+      try {
+        await AsyncStorage.setItem("@PasswordManager:Passwords", JSON.stringify(data))
+        ToastAndroid.show('Senha modificada com sucesso!', 2000)
+        navigation.goBack()
+
+      } catch (e) {
+        console.log(e)
+        setButtonLoading(false)
+      }
     }
 
   }
@@ -125,6 +132,14 @@ export function ShowDatas() {
     )
   }
 
+  const verifyInputs = () => {
+    if (!identifier || !password) {
+      setRequiredFiel('red.400')
+      return Alert.alert('Entrada', 'Campos em vermelho são obrigatórios')
+    }
+    return true
+  }
+
   useFocusEffect(useCallback(() => {
     getItems()
   }, []))
@@ -141,14 +156,14 @@ export function ShowDatas() {
         <Center mb={5} pt={3}>
           <UserCircleGear size={120} color='#5C9DF2' />
         </Center>
-        
+
         {isLoading ?
           <Loading /> :
           <VStack p={3} flex={1} justifyContent='center'>
-            <Input h={60} mb={5} bg='gray.800' value={identifier} InputLeftElement={<Icon as={<IdentificationCard color={colors.gray[300]} />} m={3} />} placeholder='Identificador' placeholderTextColor='gray.500' color='gray.300' onChangeText={setIdentifier} />
+            <Input autoCapitalize='words' h={60} mb={5} bg='gray.800' value={identifier} InputLeftElement={<Icon as={<IdentificationCard color={colors.gray[300]} />} m={3} />} placeholder='Identificador' placeholderTextColor='gray.500' borderBottomColor={requiredFiel} color='gray.300' onChangeText={setIdentifier} />
             <Input h={60} mb={5} bg='gray.800' value={user} InputLeftElement={<Icon as={<User color={colors.gray[300]} />} m={3} />} placeholder='Usuário' placeholderTextColor='gray.500' color='gray.300' onChangeText={setUser} />
             <Input h={60} mb={5} bg='gray.800' value={email} InputLeftElement={<Icon as={<Envelope color={colors.gray[300]} />} m={3} />} placeholder='E-mail' placeholderTextColor='gray.500' color='gray.300' onChangeText={setEmail} />
-            <Input h={60} mb={5} bg='gray.800' value={password} InputLeftElement={<Icon as={<Password color={colors.gray[300]} />} m={3} />} placeholder='Senha' placeholderTextColor='gray.500' color='gray.300' onChangeText={setPassword} type={hidePassword ? 'password' : 'text'}
+            <Input h={60} mb={5} bg='gray.800' value={password} InputLeftElement={<Icon as={<Password color={colors.gray[300]} />} m={3} />} placeholder='Senha' placeholderTextColor='gray.500' borderBottomColor={requiredFiel} color='gray.300' onChangeText={setPassword} type={hidePassword ? 'password' : 'text'}
               InputRightElement={<TouchableOpacity onPress={() => setHidePassword(!hidePassword)} style={{ marginRight: 15 }}>
                 {hidePassword ? <Eye color={colors.gray[300]} /> : <EyeSlash color={colors.gray[300]} />}
               </TouchableOpacity>} />
