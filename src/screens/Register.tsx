@@ -1,7 +1,7 @@
 
 import { Header } from '../components/Header';
 import { Box, Center, Icon, IconButton, ScrollView, Select, useTheme, VStack } from 'native-base';
-import { CaretLeft, Envelope, Eye, IdentificationCard, EyeSlash, Password, User, UserCirclePlus } from 'phosphor-react-native';
+import {Envelope, Eye, IdentificationCard, EyeSlash, Password, User, UserCirclePlus } from 'phosphor-react-native';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 
@@ -91,7 +91,7 @@ export function Register() {
             <UserCirclePlus size={120} color='#5C9DF2' />
           </Center>
 
-          <Input h={60} mb={5} bg='gray.800' InputLeftElement={<Icon as={<IdentificationCard color={colors.gray[300]} />} m={3} />} placeholder='Identificador' placeholderTextColor='gray.500' color='gray.300' onChangeText={setIdetifier} borderBottomColor={requiredFiel} />
+          <Input autoCapitalize='words' h={60} mb={5} bg='gray.800' InputLeftElement={<Icon as={<IdentificationCard color={colors.gray[300]} />} m={3} />} placeholder='Identificador' placeholderTextColor='gray.500' color='gray.300' onChangeText={setIdetifier} borderBottomColor={requiredFiel} />
           <Input h={60} mb={5} bg='gray.800' InputLeftElement={<Icon as={<User color={colors.gray[300]} />} m={3} />} placeholder='Nome de usuário' placeholderTextColor='gray.500' color='gray.300' onChangeText={setUser} />
           <Input h={60} mb={5} bg='gray.800' InputLeftElement={<Icon as={<Envelope color={colors.gray[300]} />} m={3} />} placeholder='E-mail' placeholderTextColor='gray.500' color='gray.300' onChangeText={setEmail} />
           <Input type={hidePassword ? 'password' : 'text'} h={60} mb={5} bg='gray.800' InputLeftElement={<Icon as={<Password color={colors.gray[300]} />} m={3} />} placeholder='Senha' placeholderTextColor='gray.500' color='gray.300' onChangeText={setPassword} borderBottomColor={requiredFiel}
