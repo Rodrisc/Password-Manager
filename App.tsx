@@ -11,7 +11,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <StatusBar
-      style='auto'
+      style='inverted'
       backgroundColor='transparent'
       translucent />
       <Routes />
