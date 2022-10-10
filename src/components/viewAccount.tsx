@@ -1,9 +1,9 @@
 import { IPressableProps, Text, VStack, HStack, Pressable, Circle, Box, useTheme, IconButton, Icon } from 'native-base';
-import { Password, User, CaretDown, CaretUp, Envelope, Key, IdentificationCard, IdentificationBadge } from 'phosphor-react-native';
+import { User, CaretDown, CaretUp, Envelope, Key, IdentificationCard, IdentificationBadge, ClipboardText } from 'phosphor-react-native';
 import { useState } from 'react';
+import { Alert, TouchableOpacity, Clipboard, ToastAndroid } from 'react-native';
 
 import { Input } from './Input';
-
 
 export type dataAccount = {
     id: string
@@ -25,10 +25,14 @@ export function ViewAccount({ data, ...rest }: Props) {
 
     const [ocultar, setOcultar] = useState(false)
 
-
-
     function handleOcultar() {
         setOcultar(!ocultar)
+    }
+
+    const copy = (args: string) => {
+        console.log('deuc erto', args)
+        Clipboard.setString(args)
+        ToastAndroid.show('Copiado com sucesso!', 2000)
     }
 
     return (
@@ -67,6 +71,9 @@ export function ViewAccount({ data, ...rest }: Props) {
                                 variant='underlined'
                                 value={data.user}
                                 InputLeftElement={<Icon as={<User color={colors.gray[300]} />} mr={3} />}
+                                InputRightElement={<TouchableOpacity onPress={() => copy(data.user)} style={{ marginRight: 15 }}>
+                                {<ClipboardText color={colors.gray[300]} /> }
+                              </TouchableOpacity>}
                                 color='gray.300'
                                 size={24}
                                 isReadOnly
@@ -77,6 +84,9 @@ export function ViewAccount({ data, ...rest }: Props) {
                                 variant='underlined'
                                 value={data.email}
                                 InputLeftElement={<Icon as={<Envelope color={colors.gray[300]} />} mr={3} />}
+                                InputRightElement={<TouchableOpacity onPress={() => copy(data.email)} style={{ marginRight: 15 }}>
+                                {<ClipboardText color={colors.gray[300]} /> }
+                              </TouchableOpacity>}
                                 color='gray.300'
                                 size={24}
                                 isReadOnly
@@ -87,6 +97,9 @@ export function ViewAccount({ data, ...rest }: Props) {
                                 variant='underlined'
                                 value={data.password}
                                 InputLeftElement={<Icon as={<Key color={colors.gray[300]} />} mr={3} />}
+                                InputRightElement={<TouchableOpacity onPress={() => copy(data.password)} style={{ marginRight: 15 }}>
+                                {<ClipboardText color={colors.gray[300]} /> }
+                              </TouchableOpacity>}
                                 color='gray.300'
                                 size={24}
                                 isReadOnly
