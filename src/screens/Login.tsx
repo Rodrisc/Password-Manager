@@ -22,7 +22,7 @@ export function Login({ authenticate }: Props) {
             
 
             <Text textAlign='center' p={2} fontSize='lg' pb={10}>
-                Para ter acesso ao Password Manager, entre com as credências do seu dispositivo.
+                Para ter acesso ao Password Manager, entre com as credênciais do seu dispositivo.
             </Text>
 
             <Button title='Acessar' onPress={authenticate} w={20} />
