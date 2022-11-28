@@ -1,11 +1,11 @@
 import { IPressableProps, Text, VStack, HStack, Pressable, Circle, Box, useTheme, IconButton, Icon } from 'native-base';
 import { User, CaretDown, CaretUp, Envelope, Key, IdentificationCard, IdentificationBadge, ClipboardText } from 'phosphor-react-native';
 import { useState } from 'react';
-import { Alert, TouchableOpacity, Clipboard, ToastAndroid } from 'react-native';
+import {TouchableOpacity, Clipboard, ToastAndroid } from 'react-native';
 
 import { Input } from './Input';
 
-export type dataAccount = {
+export type accountData = {
     id: string
     identifier: string
     user: string
@@ -15,11 +15,11 @@ export type dataAccount = {
 }
 
 type Props = IPressableProps & {
-    data: dataAccount
+    data: accountData
 }
 
 
-export function ViewAccount({ data, ...rest }: Props) {
+export function ShowData({ data, ...rest }: Props) {
 
     const { colors } = useTheme()
 
@@ -30,7 +30,7 @@ export function ViewAccount({ data, ...rest }: Props) {
     }
 
     const copy = (args: string) => {
-        console.log('deuc erto', args)
+        
         Clipboard.setString(args)
         ToastAndroid.show('Copiado com sucesso!', 2000)
     }

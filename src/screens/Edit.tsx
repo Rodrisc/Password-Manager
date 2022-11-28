@@ -5,11 +5,11 @@ import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Loading } from '../components/Loading';
 
-import { User, Envelope, Password, IdentificationCard, Eye, EyeSlash, UserCirclePlus, UserCircleGear } from 'phosphor-react-native';
+import { User, Envelope, Password, IdentificationCard, Eye, EyeSlash, UserCircleGear } from 'phosphor-react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { dataAccount } from '../components/viewAccount';
+import { accountData } from '../components/ShowData';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Input } from '../components/Input';
@@ -20,7 +20,7 @@ type RouteParams = {
   id: string
 }
 
-export function ShowDatas() {
+export function Edit() {
 
 
   const navigation = useNavigation()
@@ -29,9 +29,9 @@ export function ShowDatas() {
 
   const route = useRoute()
   // const [edit, setEdit] = useState(false)
-  const [account, setAccount] = useState<dataAccount>()
+  const [account, setAccount] = useState<accountData>()
 
-  const [allAccounts, setAllAccounts] = useState<dataAccount[]>([])
+  const [allAccounts, setAllAccounts] = useState<accountData[]>([])
 
   const [isLoading, setIsLoading] = useState(true)
   const [ButtonLoading, setButtonLoading] = useState(false)

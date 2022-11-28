@@ -3,7 +3,7 @@ export declare global {
         interface RootParamList{
             home: undefined
             register: undefined
-            showdata: { id: string }
+            edit: { id: string }
             config: undefined
         }
     }

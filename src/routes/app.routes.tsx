@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Home } from '../screens/Home'
 import { Register } from '../screens/Register'
-import { ShowDatas } from '../screens/Edit'
+import { Edit } from '../screens/Edit'
 import { Config } from '../screens/Config'
 
 
@@ -13,7 +13,7 @@ export function AppRoutes() {
         <Navigator screenOptions={{ headerShown: false }}>
             <Screen name='home' component={Home} />
             <Screen name='register' component={Register} />
-            <Screen name='showdata' component={ShowDatas} />
+            <Screen name='edit' component={Edit} />
             <Screen name='config' component={Config} />
         </Navigator>
     )

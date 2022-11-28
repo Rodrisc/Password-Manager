@@ -7,7 +7,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Button } from '../components/Button';
 
 
-import { ViewAccount, dataAccount } from '../components/viewAccount';
+import { ShowData, accountData } from '../components/ShowData';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loading } from '../components/Loading';
 
@@ -16,19 +16,25 @@ export function Home() {
 
   const navigation = useNavigation()
 
-  const [accounts, setAccounts] = useState<dataAccount[]>([])
+  const [accounts, setAccounts] = useState<accountData[]>([])
 
   const [isLoading, setIsLoading] = useState(false)
 
   const { colors } = useTheme()
 
 
-  function handleOpenNewAccount() {
+  function handleOpenRegister() {
+    
     navigation.navigate('register')
   }
 
   function handleOpenConfig() {
     navigation.navigate('config')
+  }
+
+  function handleOpenEdit(id: string) {
+    // let bo = true
+    navigation.navigate('edit', { id })
   }
 
   const getData = async () => {
@@ -47,9 +53,7 @@ export function Home() {
   //   console.log(response)
   // }
 
-  function handleOpenShowDatas(id: string) {
-    navigation.navigate('showdata', { id })
-  }
+  
 
   useFocusEffect(useCallback(() => {
     getData()
@@ -101,7 +105,7 @@ export function Home() {
           <FlatList
             data={accounts}
             keyExtractor={item => item.id}
-            renderItem={({ item }) => <ViewAccount data={item} onPress={() => handleOpenShowDatas(item.id)} />}
+            renderItem={({ item }) => <ShowData data={item} onPress={() => handleOpenEdit(item.id)} />}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
               <Center>
@@ -113,7 +117,7 @@ export function Home() {
               </Center>
             )}
           />
-          <Button title='Adicionar nova senha' onPress={handleOpenNewAccount}
+          <Button title='Adicionar nova senha' onPress={handleOpenRegister}
             mt={3}
           />
         </VStack>}
