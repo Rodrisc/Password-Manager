@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack, useTheme } from 'native-base';
+import { VStack } from 'native-base';
 import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 
@@ -8,38 +8,16 @@ import { Alert, ToastAndroid } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication'
 import { useEffect, useState, } from 'react';
 
+import { removeSecurity, addSecurity } from '../services/security';
+
 export function Config() {
 
-    const { colors } = useTheme()
+    // const { colors } = useTheme()
 
     const [isBiometricSupported, setIsBiometricSupported] = useState(false)
     const [enableButton, setEnableButton] = useState(false)
 
-    const addSecurity = async (response: boolean) => {
-
-        if (response) {
-            const data = [{ security: response }]
-
-            try {
-                await AsyncStorage.setItem("@PasswordManager:Security", JSON.stringify(data))
-                ToastAndroid.show('Segurança adicionada com sucesso!', 2000)
-
-            } catch (e) {
-                console.log(e)
-            }
-            }
-        }
-
-    const removeSecurity = async (response: boolean) => {
-
-        if (response) {
-            await AsyncStorage.removeItem("@PasswordManager:Security")
-            ToastAndroid.show('Segurança removida com sucesso!', 2000)
-        } else{
-            ToastAndroid.show('Não foi possível remover a segurança', 2000)
-        }
-    }
-
+    
     const confirmSegurityForAdd = async () => {
         await LocalAuthentication.authenticateAsync({
             promptMessage: 'Autenticação',
