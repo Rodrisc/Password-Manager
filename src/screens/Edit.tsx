@@ -21,29 +21,20 @@ type RouteParams = {
 }
 
 export function Edit() {
-
-
-  const navigation = useNavigation()
-
-  const { colors } = useTheme()
-
-  const route = useRoute()
-  // const [edit, setEdit] = useState(false)
+  
   const [account, setAccount] = useState<accountData>()
-
   const [allAccounts, setAllAccounts] = useState<accountData[]>([])
-
   const [isLoading, setIsLoading] = useState(true)
   const [ButtonLoading, setButtonLoading] = useState(false)
-
   const [identifier, setIdentifier] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState('')
   const [requiredFiel, setRequiredFiel] = useState('')
-
   const [hidePassword, setHidePassword] = useState(true)
-
+  const navigation = useNavigation()
+  const { colors } = useTheme()
+  const route = useRoute()
   const { id } = route.params as RouteParams
 
   const Delete = async () => {

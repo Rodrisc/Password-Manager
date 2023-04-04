@@ -1,7 +1,7 @@
 
 import { Header } from '../components/Header';
-import { Box, Center, Icon, IconButton, ScrollView, Select, useTheme, VStack } from 'native-base';
-import {Envelope, Eye, IdentificationCard, EyeSlash, Password, User, UserCirclePlus } from 'phosphor-react-native';
+import { Box, Center, Icon, ScrollView, Select, useTheme, VStack } from 'native-base';
+import { Envelope, Eye, IdentificationCard, EyeSlash, Password, User, UserCirclePlus } from 'phosphor-react-native';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 

@@ -17,21 +17,21 @@ export function Routes() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false)
   const [isAuthenticate, setIsAlthenticate] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  
+
 
   function onAuthenticate() {
 
     const auth = LocalAuthentication.authenticateAsync({
       promptMessage: 'Autenticação',
       fallbackLabel: 'Entre com a senha',
-      
+
     }).then(result => {
-      if(!result.success){
+      if (!result.success) {
         ToastAndroid.show('Não foi possível acessar o App! Use/Habilite as credênciais do dispositivo!', 2000)
         // BackHandler.exitApp()
       }
       setIsAlthenticate(result.success)
-      
+
     })
   }
 
@@ -46,19 +46,19 @@ export function Routes() {
 
   }
 
-  const verifyAsyncStorage = async () => {
-    
-    try{
+  async function verifyAsyncStorage() {
+
+    try {
       const response = await AsyncStorage.getItem("@PasswordManager:Security")
-      
-      if(!response){
+
+      if (!response) {
         setIsLoading(false)
         setIsAlthenticate(true)
-      } else{
+      } else {
         setIsLoading(false)
         onAuthenticate()
       }
-    }catch(e){
+    } catch (e) {
       console.log(e)
     }
   }
@@ -68,21 +68,21 @@ export function Routes() {
     verifyCompatibility()
     verifyAsyncStorage()
 
-    if(!setIsAlthenticate){
+    if (!setIsAlthenticate) {
       onAuthenticate()
     }
   }, [])
 
-  
 
-  if(isLoading){
-    return(<Loading/> )
+
+  if (isLoading) {
+    return (<Loading />)
   }
 
   return (
     <NavigationContainer>
       {isAuthenticate ?
-        <AppRoutes /> : <Login authenticate={verifyAsyncStorage}/>
+        <AppRoutes /> : <Login authenticate={verifyAsyncStorage} />
       }
     </NavigationContainer>
   );
