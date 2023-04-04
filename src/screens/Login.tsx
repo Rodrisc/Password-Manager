@@ -4,7 +4,7 @@ import { Button } from '../components/Button';
 import Logo from '../assets/logosvg.svg'
 
 type Props = {
-    authenticate: any
+    authenticate: () => void
 }
 
 export function Login({ authenticate }: Props) {
