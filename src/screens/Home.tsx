@@ -1,22 +1,33 @@
-import { VStack, Text, HStack, IconButton, useTheme, Heading, Center, FlatList } from 'native-base';
+import { VStack, Text, HStack, IconButton, useTheme, Heading, Center, FlatList} from 'native-base';
 import { useState, useCallback } from 'react';
 import { LockKey, Tray, Gear } from 'phosphor-react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import PasswordServices from '../services/password.services';
 
 
 import { Button } from '../components/Button';
 
+import { accountData } from '../@types/dataTypes';
 
-import { ShowData, accountData } from '../components/ShowData';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ShowData } from '../components/ShowData';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loading } from '../components/Loading';
+import { Input } from '../components/Input';
+import { Alert, ToastAndroid } from 'react-native';
 
+
+var jsonvalue: any
 
 export function Home() {
+
+  const pServices = new PasswordServices()
 
   const navigation = useNavigation()
 
   const [accounts, setAccounts] = useState<accountData[]>([])
+  // const [filter, setFilter] = useState('')
+
+  const [inputSearch, setInputSearch] = useState('')
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -24,7 +35,7 @@ export function Home() {
 
 
   function handleOpenRegister() {
-    
+
     navigation.navigate('register')
   }
 
@@ -40,25 +51,50 @@ export function Home() {
   const getData = async () => {
     setIsLoading(true)
     try {
-      const jsonvalue = await AsyncStorage.getItem('@PasswordManager:Passwords')
-      jsonvalue ? setAccounts(JSON.parse(jsonvalue)) : []
-    } catch (e) {
-      console.log(e)
+      jsonvalue = await pServices.getAllPassword()
+      
+      jsonvalue ? setAccounts(jsonvalue) : []
+    } catch (error) {
+      console.log('Erro na consulta: ', error)
+      setIsLoading(false)
     }
     setIsLoading(false)
   }
 
-  // const getAllkeys = async () =>{
-  //   const response = await AsyncStorage.removeItem('@PasswordManager:Passwords')
-  //   console.log(response)
+  // async function handleGetPasswordInOrder(order: string) {
+  //   setIsLoading(true)
+  //   console.log(order)
+  //   try {
+  //     jsonvalue = await pServices.getPasswordByFilterAndSearch(inputSearch)
+  //     jsonvalue ? setAccounts(jsonvalue) : []
+  //   } catch (error) {
+  //     console.log('Erro na consulta: ', error)
+
+  //   }
+  //   setFilter(order)
+  //   setIsLoading(false)
   // }
 
-  
+  async function handleSearhPassowrd(search: string) {
+    setInputSearch(search)
+    try {
+      jsonvalue = await pServices.getSearchPassword(search)
+      jsonvalue ? setAccounts(jsonvalue) : []
+    } catch (error) {
+      console.log('Erro na consulta: ', error)
+    }
+  }
+
+  function handleInfoTotalPassword(){
+    ToastAndroid.show(`${accounts.length ? `Você tem ${accounts.length} senha(s) salva(s)`: `Você não tem senhas salvas`}`, 2000)
+  }
+
 
   useFocusEffect(useCallback(() => {
     getData()
+    setInputSearch('')
   }, []))
-  
+
   return (
     <VStack flex={1} pb={6} bg="gray.700">
 
@@ -73,7 +109,7 @@ export function Home() {
       >
 
         <HStack alignItems='center'>
-          <LockKey color={colors.gray[300]} />
+          {/* <LockKey color={colors.gray[300]} /> */}
           <Heading color='gray.300'>
             Password Manager
           </Heading>
@@ -90,16 +126,37 @@ export function Home() {
         <VStack flex={1} px={6} >
 
           <HStack w='full' mt={5} mb={4} justifyContent='space-between' alignItems='center'>
-            <Heading color='gray.300'>
+            {/* <Heading color='gray.300'>
               Minhas senhas
             </Heading>
+            <Text color='gray.200'>{accounts.length}</Text> */}
 
-            {/* <IconButton
-          icon={eye ? <Eye size={25} color={colors.gray[300]} /> : <EyeSlash size={25} color={colors.gray[300]} />}
-          onPress={handleEye}
-        /> */}
+            {/* <Box >
+              <Select selectedValue={filter} minWidth='49%' accessibilityLabel='Choose Filter'
+                placeholder='Filtrar' _selectedItem={{
+                  bg: "amber.400",
+                  endIcon: <CaretDown size='5' />
+                }} onValueChange={itemValue => handleGetPasswordInOrder(itemValue)}
+                borderRadius='none'
+                color='gray.300'
+                fontSize='md'
+                borderWidth='0'
+                borderBottomWidth={1}
+                
+                
+                >
 
-            <Text color='gray.200'>{accounts.length}</Text>
+          
+                <Select.Item label='Filtrar por Identificador' value='identifier' />
+                
+                
+              </Select>
+            </Box> */}
+
+            <Input placeholder='Pesquisar' color='gray.300' maxW='100%'  pl={3} value={inputSearch} onChangeText={handleSearhPassowrd}
+            InputRightElement={<Button bg='none' title={accounts.length} h={9} _pressed={{ bg:'none'}} onPress={handleInfoTotalPassword}></Button>}></Input>
+            
+            {/* <Text color='gray.200' bg='amber.300' w={4} borderRadius='full'>{accounts.length}</Text> */}
           </HStack>
 
           <FlatList

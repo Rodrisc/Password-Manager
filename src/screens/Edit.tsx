@@ -11,19 +11,23 @@ import { useNavigation } from '@react-navigation/native';
 
 import { accountData } from '../components/ShowData';
 
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { ToastAndroid, Alert, TouchableOpacity } from 'react-native';
+
+import PasswordServices from '../services/password.services';
 
 type RouteParams = {
   id: string
 }
 
+const pServices = new PasswordServices()
+
+var data: any
+
 export function Edit() {
   
   const [account, setAccount] = useState<accountData>()
-  const [allAccounts, setAllAccounts] = useState<accountData[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [ButtonLoading, setButtonLoading] = useState(false)
   const [identifier, setIdentifier] = useState('')
@@ -37,10 +41,9 @@ export function Edit() {
   const route = useRoute()
   const { id } = route.params as RouteParams
 
-  const Delete = async () => {
+  const Delete = () => {
     try {
-      const newJson = allAccounts.filter(item => item.id != id)
-      await AsyncStorage.setItem("@PasswordManager:Passwords", JSON.stringify(newJson))
+      pServices.deletePassowrdById(id)
     } catch (e) {
       console.log(e)
     }
@@ -48,31 +51,24 @@ export function Edit() {
     navigation.goBack()
   }
 
-  const getItems = async () => {
+  const getPassword = async () => {
 
     try {
-
-      const response = await AsyncStorage.getItem("@PasswordManager:Passwords")
-      const allItens = response ? JSON.parse(response) : []
-
-      const item = allItens.find((item: { id: any; }) => item.id === id)
-
-      setIdentifier(item.identifier)
-      setEmail(item.email)
-      setPassword(item.password)
-      setUser(item.user)
-      setAccount(item)
-      setAllAccounts(allItens)
+      data = await pServices.getPasswordById(id)
+      
+      setIdentifier(data[0].identifier)
+      setEmail(data[0].email)
+      setPassword(data[0].password)
+      setUser(data[0].user)
+      setAccount(data[0])
 
     } catch (e) {
       console.log(e)
     }
-
     setIsLoading(false)
-
   }
 
-  const handleSave = async () => {
+  const handleUpdadePassword = async () => {
 
     const verify = verifyInputs()
 
@@ -90,11 +86,8 @@ export function Edit() {
         colorBox: account.colorBox
       }
 
-      const newJson = allAccounts.filter(item => item.id != id)
-      const data = [...newJson, newData]
-
       try {
-        await AsyncStorage.setItem("@PasswordManager:Passwords", JSON.stringify(data))
+        pServices.updateById(newData)
         ToastAndroid.show('Senha modificada com sucesso!', 2000)
         navigation.goBack()
 
@@ -132,7 +125,7 @@ export function Edit() {
   }
 
   useFocusEffect(useCallback(() => {
-    getItems()
+    getPassword()
   }, []))
 
 
@@ -159,7 +152,7 @@ export function Edit() {
                 {hidePassword ? <Eye color={colors.gray[300]} /> : <EyeSlash color={colors.gray[300]} />}
               </TouchableOpacity>} />
 
-            <Button title={'Salvar'} onPress={handleSave} mb={5} isLoading={ButtonLoading} />
+            <Button title={'Salvar'} onPress={handleUpdadePassword} mb={5} isLoading={ButtonLoading} />
             <Button title='Apagar' bg='red.500' _pressed={{ bg: 'red.800' }} onPress={handleDelete} />
 
           </VStack>
