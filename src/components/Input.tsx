@@ -12,6 +12,8 @@ export function Input({ ...rest }: IInputProps) {
       fontFamily='body'
       autoCapitalize='none'
       selectionColor={colors.blue['400']}
+      // isFocused={colors.blue['400']}
+      
       
       {...rest}
     />
