@@ -1,18 +1,17 @@
 import { IPressableProps, Text, VStack, HStack, Pressable, Circle, Box, useTheme, IconButton, Icon } from 'native-base';
 import { User, CaretDown, CaretUp, Envelope, Key, IdentificationCard, IdentificationBadge, ClipboardText } from 'phosphor-react-native';
 import { useState } from 'react';
-import {TouchableOpacity, Clipboard, ToastAndroid } from 'react-native';
+import {TouchableOpacity, Clipboard, ToastAndroid, NativeModules, LayoutAnimation } from 'react-native';
 
 import { Input } from './Input';
+import { accountData } from '../@types/dataTypes';
 
-export type accountData = {
-    id: string
-    identifier: string
-    user: string
-    email: string
-    password: string
-    colorBox: string
-}
+
+const { UIManager } = NativeModules
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+    UIManager.setLayoutAnimationEnabledExperimental(true)
+
 
 type Props = IPressableProps & {
     data: accountData
@@ -26,6 +25,7 @@ export function ShowData({ data, ...rest }: Props) {
     const [ocultar, setOcultar] = useState(false)
 
     function handleOcultar() {
+        LayoutAnimation.easeInEaseOut()
         setOcultar(!ocultar)
     }
 
@@ -122,3 +122,5 @@ export function ShowData({ data, ...rest }: Props) {
 
     )
 }
+
+export { accountData };
