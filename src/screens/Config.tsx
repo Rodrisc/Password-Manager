@@ -9,6 +9,7 @@ import * as LocalAuthentication from 'expo-local-authentication'
 import { useEffect, useState, } from 'react';
 
 import { removeSecurity, addSecurity } from '../services/security';
+import {getDataAsyncStorage} from '../database/migrations';
 
 export function Config() {
 
@@ -16,6 +17,7 @@ export function Config() {
 
     const [isBiometricSupported, setIsBiometricSupported] = useState(false)
     const [enableButton, setEnableButton] = useState(false)
+    const [isReady, setIsReady] = useState(false)
 
     
     const confirmSegurityForAdd = async () => {
@@ -101,6 +103,23 @@ export function Config() {
         }
     }
 
+    async function handlMigration()
+    {
+        setIsReady(true)
+
+        var estaPronto = await getDataAsyncStorage()
+
+        if(!estaPronto){
+
+            setIsReady(estaPronto)
+            ToastAndroid.show('Sucesso!',2000)
+        }
+        
+        
+    }
+
+    
+
     useEffect(() => {
         verifyAsyncStorage()
         verifyCompatibility()
@@ -114,6 +133,7 @@ export function Config() {
             <VStack m={2} flex={1} justifyContent='center'>
                 <Button title='Adicionar segurança' mb={2} onPress={handleAddSecurity} isDisabled={enableButton} />
                 <Button title='Remover segurança' bg='red.500' _pressed={{ bg: 'red.800' }} onPress={handleRemoveSecurity} isDisabled={!enableButton} />
+                <Button title='Migrar dados' mt={2} bg='blue.600' isLoading={isReady} onPress={handlMigration}/>
             </VStack>
         </VStack>
     );
